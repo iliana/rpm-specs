@@ -1,13 +1,14 @@
+%global prerelease rc0
+%global fullversion %{version}%{?prerelease:-%{prerelease}}
+
 Name:           cmus
-Version:        2.7.1
-Release:        4%{?dist}
+Version:        2.8.0
+Release:        0.1.%{prerelease}%{?dist}
 Summary:        Ncurses-Based Music Player
 Group:          Applications/Multimedia
 License:        GPLv2+
 URL:            https://cmus.github.io/
-Source0:        https://github.com/cmus/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
-# patch from https://github.com/mahkoh/cmus/commits/ffmpeg_legacy
-Patch0:         new_ffmpeg.patch
+Source0:        https://github.com/cmus/%{name}/archive/v%{fullversion}/%{name}-%{fullversion}.tar.gz
 
 BuildRequires:  alsa-lib-devel
 BuildRequires:  faad2-devel
@@ -24,6 +25,7 @@ BuildRequires:  libsamplerate-devel
 BuildRequires:  libvorbis-devel
 BuildRequires:  opusfile-devel
 BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  systemd-devel
 BuildRequires:  wavpack-devel
 
 BuildRequires:  ncurses-devel
@@ -35,7 +37,7 @@ operating systems
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{fullversion}
 
 
 %build
@@ -56,6 +58,7 @@ operating systems
   CONFIG_MODPLUG=y \
   CONFIG_MP4=y \
   CONFIG_MPC=y \
+  CONFIG_MPRIS=y \
   CONFIG_OPUS=y \
   CONFIG_OSS=n \
   CONFIG_PULSE=y \
@@ -91,6 +94,10 @@ chmod -x examples/*
 
 
 %changelog
+* Sat Jun 10 2017 Iliana Weller <ilianaw@buttslol.net> - 2.8.0-0.1.rc0
+- Update to 2.8.0-rc0
+- Enable MPRIS support
+
 * Tue Aug 16 2016 Leigh Scott <leigh123linux@googlemail.com> - 2.7.1-4
 - Add build requires libsamplerate-devel and libcddb-devel
 
